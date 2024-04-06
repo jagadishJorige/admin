@@ -8,7 +8,7 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
     providedIn: 'root',
 })
 export class PostService {
-    baseUrl = 'http://18.216.174.99:3000/';
+    baseUrl = 'http://3.149.29.234:3000/';
     constructor(private http: HttpClient) { }
 
     public saveArticle(user: any): Observable<any> {
