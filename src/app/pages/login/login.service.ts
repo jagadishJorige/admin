@@ -9,6 +9,7 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
 })
 export class LoginService {
     baseUrl = 'http://3.149.29.234:3000/';
+
     constructor(private http: HttpClient) { }
 
     login(user: any): Observable<any> {
