@@ -83,16 +83,15 @@ export class PostsComponent implements OnInit, OnDestroy {
     console.log(this.uploadedFiles)
     if (form.valid) {
       this.postService.saveArticle(this.form.value)
-        .subscribe(
-          response => {
-            console.log(response);
+        .subscribe({
+          next: response => {
             if (response) {
               if (this.uploadedFiles.length > 0) {
                 this.uploadFiles(response);
               } else {
                 this.getArticles();
               }
-              this.componentState = 'table'
+              this.componentState = 'table';
               this.form.reset();
               this.selectedPostId = -1;
               this.messageService.add({
@@ -102,10 +101,10 @@ export class PostsComponent implements OnInit, OnDestroy {
               });
             }
           },
-          error => {
+          error: (error: any) => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          });
-
+          }
+        })
       // if(type === 'save'){
       //   this.posts.push(form.value);
       // } else {
@@ -145,9 +144,23 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.submitType = 'edit';
     this.form.patchValue(this.posts[postId])
   }
-  deletePost(postId: number) {
-    this.posts.splice(postId, 1);
-    localStorage.setItem('posts', JSON.stringify(this.posts))
+  deletePost(postId: string) {
+    this.postService.deleteArticle(postId).subscribe({
+      next: res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Article Deleted Permenantly',
+        });
+        this.componentState = 'table';
+        this.getArticles();
+      },
+      error: (error: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      }
+    })
+    // this.posts.splice(postId, 1);
+    // localStorage.setItem('posts', JSON.stringify(this.posts))
   }
   backToTable() {
     this.componentState = 'table'

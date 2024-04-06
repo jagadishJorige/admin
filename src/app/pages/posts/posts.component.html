@@ -47,7 +47,11 @@
                     </td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.authorName }}</td>
-                    <td><img [src]="'https://lo-gw-im-vt.s3.us-east-2.amazonaws.com/' + post.image[0].name" [alt]="post.name" width="50" class="shadow-4" /></td>
+                    <td>
+                        <ng-container *ngIf="post && post.image.length">
+                            <img [src]="'https://lo-gw-im-vt.s3.us-east-2.amazonaws.com/' + post.image[0].name" [alt]="post.name" width="50" class="shadow-4" />
+                        </ng-container>
+                    </td>
                     <td>
                         <ng-container *ngFor="let item of post.newsType">
                             <p-tag [value]="item.name" [severity]="getSeverity(item.name)"></p-tag>
@@ -61,7 +65,7 @@
                     <td>{{ post.description }}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPost(index)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePost(index)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePost(post._id)"></button>
                     </td>
                 </tr>
             </ng-template>
