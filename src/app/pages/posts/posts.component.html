@@ -47,7 +47,11 @@
                     </td>
                     <td>{{ post.title }}</td>
                     <td>{{ post.authorName }}</td>
-                    <td><img [src]="'https://lo-gw-im-vt.s3.us-east-2.amazonaws.com/' + post.image[0].name" [alt]="post.name" width="50" class="shadow-4" /></td>
+                    <td>
+                        <ng-container *ngIf="post && post.image.length">
+                            <img [src]="'https://lo-gw-im-vt.s3.us-east-2.amazonaws.com/' + post.image[0].name" [alt]="post.name" width="50" class="shadow-4" />
+                        </ng-container>
+                    </td>
                     <td>
                         <ng-container *ngFor="let item of post.newsType">
                             <p-tag [value]="item.name" [severity]="getSeverity(item.name)"></p-tag>

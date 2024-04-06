@@ -83,16 +83,15 @@ export class PostsComponent implements OnInit, OnDestroy {
     console.log(this.uploadedFiles)
     if (form.valid) {
       this.postService.saveArticle(this.form.value)
-        .subscribe(
-          response => {
-            console.log(response);
+        .subscribe({
+          next: response => {
             if (response) {
               if (this.uploadedFiles.length > 0) {
                 this.uploadFiles(response);
               } else {
                 this.getArticles();
               }
-              this.componentState = 'table'
+              this.componentState = 'table';
               this.form.reset();
               this.selectedPostId = -1;
               this.messageService.add({
@@ -102,10 +101,10 @@ export class PostsComponent implements OnInit, OnDestroy {
               });
             }
           },
-          error => {
+          error: (error: any) => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
-          });
-
+          }
+        })
       // if(type === 'save'){
       //   this.posts.push(form.value);
       // } else {
