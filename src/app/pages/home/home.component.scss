@@ -1,0 +1,61 @@
+.main{
+    scale: 1;
+}
+.info-box {
+    color: #fff;
+    cursor: pointer;
+    .card-block {
+        padding: 1rem;
+    }
+
+    h2,
+    h6,
+    span,
+    p {
+        font-weight: 300;
+        letter-spacing: 0.03em;
+    }
+
+    h6 {
+        white-space: nowrap;
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 14px;
+        line-height: 1;
+    }
+}
+
+.info-box-icon {
+    margin: auto !important;
+    background-color: red;
+    height: 5rem;
+
+    i {
+        margin-top: 2rem;
+        scale: 3;
+    }
+}
+
+.text-bold {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+.bg-1 {
+    --bs-bg-opacity: 0.4;
+    background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+}
+.bg-2 {
+    --bs-bg-opacity: 0.4;
+    background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
+}
+.bg-3 {
+    --bs-bg-opacity: 0.4;
+    background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;
+}
+.bg-4 {
+    --bs-bg-opacity: 0.4;
+    background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;
+}

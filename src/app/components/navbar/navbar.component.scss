@@ -1,0 +1,20 @@
+.home-icon {
+    padding: 0.75rem;
+    i {
+       transform: scale(2);
+       margin-left: 2rem;
+    }
+}
+.login-details{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 12%;
+    text-align: left;
+    img {
+        width: 3rem;
+    }
+    span{
+        font-size: 1.25rem;
+    }
+}

@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+// Import Font Awesome styles
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import '~primeicons/primeicons.css';
+
+*:before,
+*:after,
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    vertical-align: baseline;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+.coming-soon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    div{
+        width: 25%;
+        height: 25vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: aliceblue;
+        color: #fe074e;
+        font-size: 25px;
+        font-weight: 700;
+    }
+}
+.p-multiselect{
+    width: 100% !important;
+}
+ol,ul{
+    padding-left: 0px;
+}
+.p-toast{
+    background-color: transparent !important;
+}

@@ -1,0 +1,139 @@
+<div class="table" *ngIf="componentState === 'table'; else formTemplate">
+    <div class="text-end m-4">
+        <button class="btn btn-primary main-color" (click)="addNewPost()">Create New Post</button>
+    </div>
+    <div class="cards">
+        <p-toast></p-toast>
+        <p-table
+            #dt
+            [value]="posts"
+            [rows]="10"
+            [paginator]="true"
+            [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+            [tableStyle]="{ 'min-width': '75rem' }"
+            [(selection)]="selectedPosts"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true"
+        >
+            <ng-template pTemplate="caption">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="m-0">Manage Posts</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                    <input pInputText type="text" style="text-indent: 30px;" (input)="dt.filterGlobal($event.target, 'contains')" placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th>Title </th>
+                    <th>Author Name</th>
+                    <th>Uploads</th>
+                    <th>News Type</th>
+                    <th>Sports Type</th>
+                    <th ngClass="{'description' : true}">Description</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-post let-index="rowIndex">
+                <tr>
+                    <td>
+                        <p-tableCheckbox [value]="post"></p-tableCheckbox>
+                    </td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.authorName }}</td>
+                    <td><img [src]="'https://lo-gw-im-vt.s3.us-east-2.amazonaws.com/' + post.image[0].name" [alt]="post.name" width="50" class="shadow-4" /></td>
+                    <td>
+                        <ng-container *ngFor="let item of post.newsType">
+                            <p-tag [value]="item.name" [severity]="getSeverity(item.name)"></p-tag>
+                        </ng-container>
+                    </td>
+                    <td>
+                        <ng-container *ngFor="let item of post.sportsType">
+                            <p-tag [value]="item.name" [severity]="getSeverity(item.name)"></p-tag>
+                        </ng-container>
+                    </td>
+                    <td>{{ post.description }}</td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPost(index)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePost(index)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">In total there are {{ posts ? posts.length : 0 }} posts.</div>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+</div>
+
+<ng-template #formTemplate>
+    <h2 class="post-header">Create Post Here</h2>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form,submitType)">
+                    <div class="row mb-3">
+                        <div class="form-group col-12">
+                            <label for="" class="form-label">Tilte</label>
+                            <input formControlName="title" type="text" class="form-control" name="" id="" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-4">
+                            <label for="" class="form-label">Author Name</label>
+                            <input formControlName="authorName" type="text" class="form-control" name="" id="" />
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="" class="form-label">News Type</label>
+                            <p-multiSelect formControlName="newsType" [options]="newsList" optionLabel="name"></p-multiSelect>
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="" class="form-label">Sports Type</label>
+                            <p-multiSelect formControlName="sportsType" [options]="sportsList" optionLabel="name"></p-multiSelect>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-group col-6">
+                            <label for="" class="form-label">Uploads</label>
+                            <p-fileUpload name="file" url="https://www.primefaces.org/cdn/api/upload.php"
+                                (onUpload)="onUpload($event)" [multiple]="true">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="uploadedFiles.length">
+                                        <li *ngFor="let file of uploadedFiles">
+                                            {{ file.name }} - {{ file.size }} bytes
+                                        </li>
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label for="" class="form-label">Description</label>
+                            <!-- <div class="NgxEditor__Wrapper">
+                                <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                                <ngx-editor [editor]="editor" [placeholder]="'Type here...'"></ngx-editor>
+                            </div> -->
+                            <div>
+                                <ckeditor formControlName="description" [config]="removedPlugins" #ckeditor> </ckeditor>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-12 text-end">
+                            <button type="button" class="btn btn-danger mx-3" (click)="backToTable()">Back</button>
+                            <button type="submit" class="btn btn-primary">Create Post</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
