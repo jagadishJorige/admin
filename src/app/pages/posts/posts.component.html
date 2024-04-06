@@ -65,7 +65,7 @@
                     <td>{{ post.description }}</td>
                     <td>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editPost(index)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePost(index)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deletePost(post._id)"></button>
                     </td>
                 </tr>
             </ng-template>

@@ -69,4 +69,19 @@ export class PostService {
             catchError(this.handleError)
         );
     }
+
+
+    public deleteArticle(id: string): Observable<any> {
+        const token: any = localStorage.getItem('token');
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Authorization': token
+            })
+        }
+        const url = this.baseUrl + 'articles/' + id;
+        return this.http.delete<any>(url, httpOptions).pipe(
+            retry(1),
+            catchError(this.handleError)
+        );
+    }
 }
